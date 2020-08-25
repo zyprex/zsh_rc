@@ -1,6 +1,6 @@
 # zsh\_rc
 
-.zshrc file for 256 colors term 
+.zshrc file for 256 colors term
 
 # before use
 

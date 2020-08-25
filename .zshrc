@@ -32,14 +32,19 @@ case $TERM in
   xterm*)
     precmd () {
         print -Pn "\e]0;%n@%m:%~\a"
-        RPS1=%K{234}$(git symbolic-ref --short HEAD 2> /dev/null)%k
+        RPS1=
+        ZSHPS_GIT_BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+        ZSHPS_GIT_HEAD=$(git rev-parse --short HEAD 2>/dev/null)
+        if [[ -n $ZSHPS_GIT_BRANCH ]]; then
+            RPS1=${ZSHPS_GIT_BRANCH}'/'${ZSHPS_GIT_HEAD}
+        elif [[ -n ZSHPS_GIT_HEAD ]]; then
+            RPS1=${ZSHPS_GIT_HEAD}
+        fi
     }
     ;;
 esac
-# preexec(){
-#     RPS1=$(git symbolic-ref --short HEAD 2> /dev/null)
-# }
 
+# preexec(){ RPS1=$(git symbolic-ref --short HEAD 2> /dev/null) }
 # PROMPT_COMMAND=date
 # ZSHPS_PREFIX="%{$fg[012]%}"
 # ZSHPS_SUFFIX="%{$reset_color%}"
